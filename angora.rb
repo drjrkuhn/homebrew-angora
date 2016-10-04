@@ -3,25 +3,29 @@ class Angora < Formula
   homepage "http://www.angorafdtd.org/"
   url "https://github.com/drjrkuhn/angora/archive/0.20.1.tar.gz"
   version "0.20.1"
-  sha256 "67a8473e17c6bb278b6610177ee863bb4684c5de55b2d683669184cc81d8cbcf"
+  sha256 "3f216809411cb1180e0eb6ad226e2c339647b282aebaf1c686aac26c28b37391"
   head "https://github.com/drjrkuhn/angora.git"
 
-   depends_on :mpi => [:cc, :recommended]
+   depends_on :mpi => [:cc, :optional]
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
 
-  mpi_args = []
-  mpi_args << "with-mpi" if build.with? "mpi"
+  hdf5_args = Array.new
+  hdf5_args << "with-mpi" if build.with? "mpi"
 
-  depends_on "hdf5" => mpi_args
+  boost_args = Array.new
+  boost_args << "with-mpi" if build.with? "mpi"
+  boost_args << "without-single" if build.with? "mpi"
+
+  depends_on "hdf5" => hdf5_args
   depends_on "h5utils" => :recommended
   depends_on "blitz"
   depends_on "libconfig"
   depends_on "argp-standalone"
-  depends_on "boost" => mpi_args
+  depends_on "boost" => boost_args
   
   def install
     conf_args = [
