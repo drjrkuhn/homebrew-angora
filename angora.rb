@@ -6,15 +6,15 @@ class Angora < Formula
   #sha256 "67a8473e17c6bb278b6610177ee863bb4684c5de55b2d683669184cc81d8cbcf"
   head "https://github.com/drjrkuhn/angora.git"
 
-  depends_on :mpi => [:cc, :optional]
+  #depends_on :mpi => [:cc, :optional]
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
 
-  mpi_args = []
-  mpi_args << "with-mpi" if build.with? "mpi"
+  #mpi_args = []
+  #mpi_args << "with-mpi" if build.with? "mpi"
 
   #depends_on "hdf5" => mpi_args
   #depends_on "h5utils" => :recommended
@@ -24,12 +24,12 @@ class Angora < Formula
   #depends_on "boost" >> mpi_args
   
   def install
-    conf_args = [
-      "--disable-dependency-tracking",
-      "--disable-silent-rules",
-      "--prefix=#{prefix}"
-    ]
-    conf_args << "--with-mpi" ? if build.with? "mpi"
+    #conf_args = [
+    #  "--disable-dependency-tracking",
+    #  "--disable-silent-rules",
+    #  "--prefix=#{prefix}"
+    #]
+    #conf_args << "--with-mpi" ? if build.with? "mpi"
     
     ## for testing
     # export CXXFLAGS="-std=c++98 -Wno-parentheses"
