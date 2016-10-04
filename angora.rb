@@ -38,7 +38,7 @@ class Angora < Formula
     # export LIBS="-largp -lhdf5 -lhdf5_cpp -lconfig++"
     # export HDF5_CXX="c++" HDF5_CLINKER="c++"
 
-	# default /usr/local/include search path
+    # default /usr/local/include search path
     ENV.append "CPLUS_INCLUDE_PATH", "-I#{HOMEBREW_PREFIX}/include"
     ENV.append "LIBRARY_PATH", "-I#{HOMEBREW_PREFIX}/lib"
     # use older C++ standard
@@ -50,8 +50,8 @@ class Angora < Formula
     ENV.append "HDF5_CLINKER", "c++"
 
 	
-      system "autoreconf", "-fiv"
-      system "./configure", *conf_args
+    system "autoreconf", "-fiv"
+    system "./configure", *conf_args
     system "make", "install" # if this fails, try separate make/make install steps
   end
 
