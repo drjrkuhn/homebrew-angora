@@ -55,7 +55,7 @@ class Angora < Formula
     #system "make", "install" # if this fails, try separate make/make install steps
   end
 
-  test do
-    system "false"
-  end
+  #test do
+  #  system "false"
+  #end
 end
