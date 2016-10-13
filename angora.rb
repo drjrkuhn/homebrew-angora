@@ -6,7 +6,15 @@ class Angora < Formula
   sha256 "3f216809411cb1180e0eb6ad226e2c339647b282aebaf1c686aac26c28b37391"
   head "https://github.com/drjrkuhn/angora.git"
 
-   depends_on :mpi => [:cc, :optional]
+  option "with-gnu", "force compilation with gnu compiler rather than clang"
+  if build.with? "gcc"
+    fails_with :clang
+    fails_with :gcc => "4.6" do
+      cause "The only supported compiler is GCC(>=4.7)."
+    end
+  end
+
+  depends_on :mpi => [:cc, :optional]
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -42,18 +50,21 @@ class Angora < Formula
     # export LIBS="-largp -lhdf5 -lhdf5_cpp -lconfig++"
     # export HDF5_CXX="c++" HDF5_CLINKER="c++"
 
-    # default /usr/local/include search path
-    ENV.append "CPLUS_INCLUDE_PATH", "-I#{HOMEBREW_PREFIX}/include"
-    ENV.append "LIBRARY_PATH", "-I#{HOMEBREW_PREFIX}/lib"
-    # use older C++ standard
-    ENV.append "CXXLAGS", "-std=c++98 -Wno-parentheses"
-    # force the library dependencies
-    ENV.append "LIBS", "-largp -lhdf5 -lhdf5_cpp -lconfig++"
-    # do not compile through the h5c++ script
-    ENV.append "HDF5_CXX", "c++"
-    ENV.append "HDF5_CLINKER", "c++"
+    ENV.append "CPLUS_INCLUDE_PATH", "#{HOMEBREW_PREFIX}/include"
+    ENV.append "LIBRARY_PATH", "#{HOMEBREW_PREFIX}/lib"
 
-	
+    # default /usr/local/include search path
+#     ENV.append "CPLUS_INCLUDE_PATH", "-I#{HOMEBREW_PREFIX}/include"
+#     ENV.append "LIBRARY_PATH", "-I#{HOMEBREW_PREFIX}/lib"
+    # use older C++ standard
+    ENV.append "CXXLAGS", " -std=c++98 -Wno-parentheses"
+    # force the library dependencies
+    ENV.append "LIBS", " -largp -lhdf5 -lhdf5_cpp -lconfig++"
+    # do not compile through the h5c++ script
+    ENV["HDF5_CXX"] = "g++"
+    ENV["HDF5_CLINKER"] = "g++"
+    ENV["HDF5_C"] = "gcc"
+
     system "autoreconf", "-fiv"
     system "./configure", *conf_args
     system "make", "install" # if this fails, try separate make/make install steps
